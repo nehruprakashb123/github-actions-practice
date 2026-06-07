@@ -1,0 +1,29 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: ['src/**']
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:  # Manual trigger
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'staging'
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run a simple script
+        run: |
+          echo "Hello from GitHub Actions!"
+          echo "Current date: $(date)"
+          echo "Runner OS: $RUNNER_OS"
